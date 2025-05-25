@@ -34,3 +34,28 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+в пакет node_modules/redis-errors/index.js:13
+добавить кусок кода
+```
+'use strict'
+
+let Errors;
+
+/**
+ * Support Next.js 13+ in Edge Runtime
+ * @see https://github.com/vercel/next.js/issues/73424
+ * @see https://nextjs.org/docs/app/api-reference/edge
+ */
+if (!process.env.NEXT_RUNTIME) {
+    Errors = process.version.charCodeAt(1) < 55 && process.version.charCodeAt(2) === 46
+        ? require('./lib/old') // Node.js < 7
+        : require('./lib/modern')
+}
+else {
+    Errors = require('./lib/modern')
+}
+
+module.exports = Errors
+```
